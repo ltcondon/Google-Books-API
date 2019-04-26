@@ -35,15 +35,40 @@ class Search extends Component {
   
   state = {
     books: [],
-    // title: "",
+    title: "",
     // author: "",
   };
     
-  saveBook = book => {
-    API.saveBook(book)
-      .then(alert("Book saved to library."))
-      .catch(err => console.log(err));
-    };
+  saveBook = event => {
+
+    const chosenBook = this.state.books.find(book => book.googleBookId === event.target.id);
+
+    console.log(chosenBook);
+    // const newSave = {
+    //   title: chosenBook.title,
+    //   authors: chosenBook.authors,
+    //   description: chosenBook.description,
+    //   googleBookId: chosenBook.googleBookId,
+    //   thumbnail: chosenBook.thumbnail,
+    //   link: chosenBook.link,
+    //   pageCount: chosenBook.pageCount,
+    //   subtitle: chosenBook.subtitle,
+    //   publishedDate: chosenBook.publishedDate
+    // };
+
+    API.saveBook(chosenBook)
+      .then(res => {
+        console.log(res.status, res.statusText);
+        alert('Book Saved!', {type: 'success'})
+      })
+      .catch(err => {
+        console.log(err);
+        alert('Sorry, There was an issue with something back here...', {
+          type: 'error',
+          timeout: 5000
+        })
+      })
+  };
     
   handleInputChange = event => {
     const { name, value } = event.target;
