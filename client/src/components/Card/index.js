@@ -15,7 +15,7 @@ function Card(props) {
               <div className="media">
                 <img src={book.thumbnail} className="align-self-center mr-3" alt="Book cover"/>
                 <div className="media-body">
-                  <h6 className="mt-0">{book.authors ? book.authors.join(', ') : "no author listed"}</h6>
+                  <h6 className="mt-0">{book.authors ? book.authors.join(', ') : "No Author Listed"}</h6>
                   <p className="mb-0">{book.description}</p>
                   <p className="mb-2">
                     <small className="text-muted">Published: {book.publishedDate}</small>

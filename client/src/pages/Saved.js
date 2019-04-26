@@ -4,31 +4,6 @@ import API from "../utils/API";
 import { Col, Row, Container } from "../components/Grid";
 import  Card  from "../components/Card";
 
-const formatBookResults = googleApiResults => {
-  const bookArray = [];
-
-  googleApiResults.map(book => {
-
-    // Formatted book object for passing down props to the stateless book card component
-    const formattedBook = {
-      title: book.volumeInfo.title,
-      authors: book.volumeInfo.authors,
-      description: book.volumeInfo.description,
-      googleBookId: book.id,
-      thumbnail: book.volumeInfo.imageLinks
-        ? book.volumeInfo.imageLinks.thumbnail
-        : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/170px-No_image_available.svg.png',
-      link: book.volumeInfo.canonicalVolumeLink,
-      subtitle: book.volumeInfo.subtitle,
-      publishedDate: book.volumeInfo.publishedDate
-    };
-
-    bookArray.push(formattedBook);
-    return bookArray
-  });
-  return bookArray;
-};
-
 class Saved extends Component {
   state = {
     books: [],
@@ -44,37 +19,22 @@ class Saved extends Component {
   loadBooks = () => {
     API.getSaved()
       .then(res => {
-        const formattedArray = formatBookResults(res);
-        this.setState({books: formattedArray});
+        console.log(res);
+        this.setState({books: res.data});
       })
       .catch(err => console.log(err));
   };
 
-  deleteBook = book => {
-    API.deleteBook(book)
-      .then(alert("Book deleted from library."))
+  deleteBook = id => {
+    API.deleteBook(id)
+      .then( res => {
+        console.log(res);
+        alert("Book deleted from library.")
+        this.loadBooks();
+      })
+       
       .catch(err => console.log(err));
     };
-
-  handleInputChange = event => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value
-    });
-  };
-
-  handleFormSubmit = event => {
-    event.preventDefault();
-    if (this.state.title && this.state.author) {
-      API.saveBook({
-        title: this.state.title,
-        author: this.state.author,
-        synopsis: this.state.synopsis
-      })
-        .then(res => this.loadBooks())
-        .catch(err => console.log(err));
-    }
-  };
 
   render() {
     return (
@@ -90,7 +50,7 @@ class Saved extends Component {
             {this.state.books.length ? (
               <Card
                 books={this.state.books}
-                buttonAction={this.deleteBook}
+                buttonAction={() => this.deleteBook(this.id)}
                 buttonType="btn btn-success mt-2"
                 buttonText="Delete Book"
               />

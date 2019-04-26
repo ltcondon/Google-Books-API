@@ -1,12 +1,12 @@
 const router = require("express").Router();
 const savedController = require("../../controllers/savedController");
 
-router.route("/")
+router.route("/saved")
   .get(savedController.findAll)
   .post(savedController.create);
 
 router
-  .route("/:id")
+  .route("/saved/:id")
   .delete(savedController.remove);
 
 module.exports = router;

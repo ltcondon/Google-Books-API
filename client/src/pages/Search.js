@@ -44,17 +44,6 @@ class Search extends Component {
     const chosenBook = this.state.books.find(book => book.googleBookId === event.target.id);
 
     console.log(chosenBook);
-    // const newSave = {
-    //   title: chosenBook.title,
-    //   authors: chosenBook.authors,
-    //   description: chosenBook.description,
-    //   googleBookId: chosenBook.googleBookId,
-    //   thumbnail: chosenBook.thumbnail,
-    //   link: chosenBook.link,
-    //   pageCount: chosenBook.pageCount,
-    //   subtitle: chosenBook.subtitle,
-    //   publishedDate: chosenBook.publishedDate
-    // };
 
     API.saveBook(chosenBook)
       .then(res => {
