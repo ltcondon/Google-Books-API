@@ -25,8 +25,8 @@ class Saved extends Component {
       .catch(err => console.log(err));
   };
 
-  deleteBook = id => {
-    API.deleteBook(id)
+  deleteBook = event => {
+    API.deleteBook(event.target.id)
       .then( res => {
         console.log(res);
         alert("Book deleted from library.")
@@ -50,13 +50,13 @@ class Saved extends Component {
             {this.state.books.length ? (
               <Card
                 books={this.state.books}
-                buttonAction={() => this.deleteBook(this.id)}
-                buttonType="btn btn-success mt-2"
+                buttonAction={this.deleteBook}
+                buttonType="btn btn-danger mt-2"
                 buttonText="Delete Book"
               />
             ) : (
               <div className="mx-auto">
-                <h3 className="mx-auto">No Saved Books to display!</h3>
+                  <h3 className="mx-auto text-center">Nothing saved yet, head over to the search page and start saving some books to see them here!</h3>
               </div>
             )}
           </Col>
